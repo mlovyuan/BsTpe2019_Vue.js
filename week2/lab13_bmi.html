@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"
+        integrity="sha256-chlNFSVx3TdcQ2Xlw7SvnbLAavAQLO0Y/LBiWX04viY=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha256-YLGeXaapI0/5IgZopewRJcFXomhRMlYYjugPLSyNjTY=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha256-CjSoeELFOcH0/uxWu6mC/Vlrc1AARqbm/jiiImDGV3s=" crossorigin="anonymous"></script>
+    <title>BMI computed</title>
+
+    <script>
+        function binding() {
+            new Vue({
+                el: "#block1",
+                data: { height: 0, weight: 0 },
+                computed: {
+                    bmi: function () {
+                        var result = 0;
+                        h = this.height / 100;
+                        result = this.weight / (h * h);
+                        return result;
+                    }
+                }
+            })
+        }
+        // function create() {
+        //     Vue.component('repeat', {
+        //         template : '#my',
+        //          
+        //         }
+        //     )
+        // }
+        $(function () {
+            binding();
+        });
+    </script>
+</head>
+
+<body>
+    <div id="block1" class="row" style="margin: 10px">
+        <div class="col-6">
+            <label>BMI: </label>
+            <br />
+            <label for="">身高</label>
+            <input v-model="height"><br />
+            <label for="">體重</label>
+            <input v-model="weight"><br />
+            <label>BMI = {{bmi}}</label>
+        </div>
+    </div>
+<!-- 
+    <div id="#my">
+        <label for="">{{p}}</label>
+        <input v-model="input"><br />
+        <label for="">{{p}}</label>
+        <input v-model="input"><br />
+    </div> -->
+</body>
+
+</html>

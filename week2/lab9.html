@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <title>Show multiple </title>
+
+    <script>
+        var vm;
+        var jsonData =
+        {
+            items: [
+                {
+                    "ID": 3,
+                    "title": "總裁",
+                    "name": "Eric",
+                    "PictureURL": "https://i.imgur.com/uxvy97n.png",
+                    "Phone": "0912345678",
+                    "Address": "新竹市大同區二三五路四號六樓",
+                    "Memo": "澳洲來的人",
+                    "isValid": true
+                },
+                {
+                    "ID": 4,
+                    "title": "瑪農", "name": "David", "PictureURL": "https://i.imgur.com/qsQcoGh.png", "Phone": "0987654321",
+                    "Address": "台北市信義區忠孝東路231號3樓",
+                    "Memo": "充滿活力的廉價勞工", "isValid": true
+                },
+                {
+                    "ID": 5,
+                    "title": "Boss", "name": "Amy", "PictureURL": "https://i.imgur.com/dfww1JX.png", "Phone": "0912121121",
+                    "Address": "高雄市仁義區六六路3號23樓",
+                    "Memo": "小資女", "isValid": true
+                },
+                {
+                    "ID": 6,
+                    "title": "總裁", "name": "Eric", "PictureURL": "https://i.imgur.com/uxvy97n.png", "Phone": "0912345678",
+                    "Address": "新竹市大同區二三五路四號六樓",
+                    "Memo": "澳洲來的人", isValid: false
+                },
+                {
+                    "ID": 7,
+                    "title": "瑪農", "name": "David", "PictureURL": "https://i.imgur.com/qsQcoGh.png", "Phone": "0987654321",
+                    "Address": "台北市信義區忠孝東路231號3樓",
+                    "Memo": "充滿活力的廉價勞工", "isValid": true
+                },
+                {
+                    "ID": 8,
+                    "title": "Boss", "name": "Amy", "PictureURL": "https://i.imgur.com/dfww1JX.png", "Phone": "0912121121",
+                    "Address": "高雄市仁義區六六路3號23樓",
+                    "Memo": "小資女", "isValid": true
+                }
+            ]
+        };
+
+
+        function binding() {
+            vm = new Vue({
+                el: '#block1',
+                data: { "item": jsonData.items[0] },
+                methods: {
+                    del: function () {
+                        vm.$data.item.isValid = !vm.$data.item.isValid
+                    },
+                    back: function () {
+                        vm.$data.item.isValid = !vm.$data.item.isValid
+                    }
+                }
+            })
+        }
+        function getNowIndex() {
+            return vm.$data.item.ID;
+        }
+        $(function () {
+            binding();
+            $("#next").click(function (e) {
+                var biggerList = $.grep(jsonData.items, function (item, index) {
+                    return item.ID > getNowIndex();
+                });
+                if (biggerList.length > 0) {
+                    vm.$data.item = biggerList[0];
+                }
+            });
+            $("#pre").click(function (e) {
+                var smallerList = $.grep(jsonData.items, function (item, index) {
+                    return item.ID < getNowIndex();
+                });
+                if (smallerList.length > 0) {
+                    vm.$data.item = smallerList[smallerList.length - 1];
+                }
+            });
+        });
+    </script>
+    <style>
+        .form-control {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row" id="block1">
+            <div class="col-md-6 card  mt-3">
+                <div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label>title</label>
+                            <input class="form-control" type="text" v-model="item.title">
+                            <label>name</label>
+                            <input class="form-control" type="text" v-model="item.name">
+                        </div>
+                        <div class="col-md-4">
+                            <div v-if="item.isValid == !true" style="color : red">已刪除</div>
+                            <div v-else class="mt-4"></div>
+                            <img v-bind:src="item.PictureURL" style="width: 80%" alt="">
+                        </div>
+                    </div>
+                    <label>Phone</label>
+                    <input class="form-control" type="text" v-model="item.Phone">
+                    <label>Address</label>
+                    <input class="form-control" type="text" v-model="item.Address">
+                    <label>Memo</label>
+                    <input class="form-control" type="text" v-model="item.Memo">
+                    <button class="btn" id="pre">Pre</button>
+                    <button v-if='item.isValid == true' v-on:click = "del" class="btn btn-danger">Delete</button>
+                    <button v-else v-on:click = "back" class="btn btn-danger">Return</button>
+                    <button class="btn" id="next">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

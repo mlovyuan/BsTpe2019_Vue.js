@@ -1,0 +1,53 @@
+<html>
+    <title>Component</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"
+    integrity="sha256-chlNFSVx3TdcQ2Xlw7SvnbLAavAQLO0Y/LBiWX04viY=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha256-YLGeXaapI0/5IgZopewRJcFXomhRMlYYjugPLSyNjTY=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha256-CjSoeELFOcH0/uxWu6mC/Vlrc1AARqbm/jiiImDGV3s=" crossorigin="anonymous"></script>
+<script>
+    function Binding() {
+        new Vue(
+            {
+                el: '#block1',
+                data: null,
+            }
+        );
+    }
+
+    function createComponent() {
+        Vue.component('c-component', {
+            // template: '<div><label>欄位名稱</label><input class="form-control" type=text value="123" /></div >',
+            template: '#ya',
+            props : ['putsmothingin', 'ininput']
+        });
+    }
+
+    $(document).ready(function () {
+        createComponent();
+        Binding();
+    });
+</script>
+
+<body>
+    <div id="block1" class="row" style="margin: 10px;">
+        <div class="col-md-6">
+            <h3>Test</h3>
+            <c-component putsmothingin = "A" ininput = "AAA"></c-component>
+            <c-component putsmothingin = "B" ininput = "BBB"></c-component>
+            <c-component putsmothingin = "C" ininput = "CCC"></c-component>
+        </div>
+    </div>
+    <template id="ya">
+        <div>
+            <label>{{putsmothingin}}</label>
+            <input class="form-control" type=text v-model="ininput" />
+        </div>
+    </template>
+</body>
+
+</html>

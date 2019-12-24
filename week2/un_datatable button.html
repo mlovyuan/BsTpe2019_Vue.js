@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <title>Binding Form</title>
+    <script>
+        var jsonData =
+        {
+            items: [
+                {
+                    "ID": 3,
+                    "title": "總裁",
+                    "name": "Eric",
+                    "PictureURL": "https://i.imgur.com/uxvy97n.png",
+                    "Phone": "0912345678",
+                    "Address": "新竹市大同區二三五路四號六樓",
+                    "Memo": "澳洲來的人",
+                    "isValid": true
+                },
+                {
+                    "ID": 4,
+                    "title": "瑪農", "name": "David", "PictureURL": "https://i.imgur.com/qsQcoGh.png", "Phone": "0987654321",
+                    "Address": "台北市信義區忠孝東路231號3樓",
+                    "Memo": "充滿活力的廉價勞工", "isValid": true
+                },
+                {
+                    "ID": 5,
+                    "title": "Boss", "name": "Amy", "PictureURL": "https://i.imgur.com/dfww1JX.png", "Phone": "0912121121",
+                    "Address": "高雄市仁義區六六路3號23樓",
+                    "Memo": "小資女", "isValid": true
+                },
+                {
+                    "ID": 6,
+                    "title": "總裁", "name": "Eric", "PictureURL": "https://i.imgur.com/uxvy97n.png", "Phone": "0912345678",
+                    "Address": "新竹市大同區二三五路四號六樓",
+                    "Memo": "澳洲來的人", isValid: true
+                },
+                {
+                    "ID": 7,
+                    "title": "瑪農", "name": "David", "PictureURL": "https://i.imgur.com/qsQcoGh.png", "Phone": "0987654321",
+                    "Address": "台北市信義區忠孝東路231號3樓",
+                    "Memo": "充滿活力的廉價勞工", "isValid": true
+                },
+                {
+                    "ID": 8,
+                    "title": "Boss", "name": "Amy", "PictureURL": "https://i.imgur.com/dfww1JX.png", "Phone": "0912121121",
+                    "Address": "高雄市仁義區六六路3號23樓",
+                    "Memo": "小資女", "isValid": true
+                }
+            ]
+        };
+
+        function binding() {
+            new Vue({
+                el: "#block1",
+                data: jsonData
+            });
+        }
+        $(function () {
+            binding();
+            $('#myTable').DataTable({
+                "info": false, "bLengthChange": false, "pageLength": 5
+            });
+        });
+
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row" id="block1">
+            <div class="col-md-12">
+                <table id="myTable" class="table table-light" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                Title
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Phone
+                            </th>
+                            <th>
+                                isValid
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in jsonData.items">
+                            <td>{{item.ID}}</td>
+                            <td>{{item.title}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.Phone}}</td>
+                            <td>{{item.isValid}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

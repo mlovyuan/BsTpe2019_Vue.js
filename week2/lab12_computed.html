@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"
+        integrity="sha256-chlNFSVx3TdcQ2Xlw7SvnbLAavAQLO0Y/LBiWX04viY=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha256-YLGeXaapI0/5IgZopewRJcFXomhRMlYYjugPLSyNjTY=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha256-CjSoeELFOcH0/uxWu6mC/Vlrc1AARqbm/jiiImDGV3s=" crossorigin="anonymous"></script>
+    <title>Computed</title>
+
+    <script>
+    function binding(){
+        new Vue({
+            el : "#block1",
+            data : {input : 0},
+            computed : {
+                total : function(){
+                    var number = 0;
+                    for (let i = 1; i <= this.input; i++){
+                        number += i;
+                    }
+                    return number;
+                }
+            }
+        })
+    }
+    $(function () {
+        binding();
+    });
+    </script>
+</head>
+
+<body>
+    <div id="block1" class="row" style="margin: 10px">
+        <div class="col-6">
+            <label>數值: </label>
+            <br />
+            <input v-model="input"><br />
+            <label>1 +...+ {{input}} = {{total}}</label>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,190 @@
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"
+    integrity="sha256-chlNFSVx3TdcQ2Xlw7SvnbLAavAQLO0Y/LBiWX04viY=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha256-YLGeXaapI0/5IgZopewRJcFXomhRMlYYjugPLSyNjTY=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha256-CjSoeELFOcH0/uxWu6mC/Vlrc1AARqbm/jiiImDGV3s=" crossorigin="anonymous"></script>
+<!-- DataTable -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<title>WebApi test 01</title>
+<script>
+    var vm;
+
+    var json =
+    {
+        items: [
+            {
+                id: 3,
+                title: "總裁", name: "Eric", PictureURL: "https://i.imgur.com/uxvy97n.png", Phone: "0912345678",
+                Address: "新竹市大同區二三五路四號六樓",
+                Memo: "澳洲來的人", isValid: true
+            },
+            // {
+            //     id: 4,
+            //     title: "瑪農", name: "David", PictureURL: "https://i.imgur.com/qsQcoGh.png", Phone: "0987654321",
+            //     Address: "台北市信義區忠孝東路231號3樓",
+            //     Memo: "充滿活力的廉價勞工", isValid: false
+            // },
+            // {
+            //     id: 5,
+            //     title: "Boss", name: "Amy", PictureURL: "https://i.imgur.com/dfww1JX.png", Phone: "0912121121",
+            //     Address: "高雄市仁義區六六路3號23樓",
+            //     Memo: "小資女", isValid: true
+            // }
+        ]
+    };
+
+    function Binding() {
+        vmModal = new Vue(
+            {
+                el: '#modelId',
+                data: { item: json.items[0] },
+            });
+
+        vm = new Vue(
+            {
+                el: '#block1',
+                data: json,
+                methods: {
+                    SaveData: function (event) {
+                        this.$data.item.isValid = !this.$data.item.isValid;
+                    },
+                    DeleteData: function (event) {
+                        json.items = $.grep(json.items, function(value){
+                            return value != event;
+                        })
+                        console.log(this.$data.item)
+                        //this.$data.item.isValid = !this.$data.item.isValid;
+                    },
+                    Edit: function (item) {
+                        //alert(item);
+                        vmModal.$data.item = item;
+                    },
+                }
+            }
+        );
+    }
+
+    function init() {
+        $.ajax({
+            type: "Get",
+            url: "/Employee",
+            data: "",
+            dataType: "json",
+            success: function (response) {
+                //alert(response);
+                console.log(response);
+                json.items = response;
+                Binding();
+            }
+        });
+    }
+
+    function Save2Server() {
+        $.ajax({
+            type: "post",
+            url: "/Employee",
+            data: JSON.stringify(json.items),
+            dataType: "json",
+            headers: { 'Content-type': 'application/json' },
+            success: function (response) {
+                alert(response);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        init();
+
+        $('#myTable').DataTable({
+            "info": false, "bLengthChange": false, "pageLength": 5
+        });
+    });
+</script>
+
+<body>
+    <div id="block1" class="row" style="margin: 10px">
+        <div class="col-12">
+            <table id="myTable" class="cell-border compact stripe" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>功能</th>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>isValid</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in items">
+                        <td>
+                            <button type="button" v-on:click="Edit(item)" class="btn btn-primary btn-lg"
+                                data-toggle="modal" data-target="#modelId">
+                                Edit
+                            </button>
+                            <button v-if="item.isValid==true" v-on:click = "DeleteData(item)" class="btn btn-danger">刪除</button>
+                            <label v-else style="color: red">已刪除</label>
+                        </td>
+                        <td>{{item.id}}</td>
+                        <td>{{item.title}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.phone}}</td>
+                        <td>{{item.isValid}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12">
+            <button class="btn btn-secondary" style="margin-top: 10px;" onclick="Save2Server()">save</button>
+        </div>
+    </div>
+
+</body>
+
+<!-- Modal -->
+<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">sm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div style=" margin: 30px">
+                    <div class="row">
+                        <div class="col-12">
+                            <h5>資料編號: {{item.id}}</h5>
+                            <label>職稱:</label>
+                            <input class="form-control" type="text" v-model="item.title" />
+                            <label>姓名:</label>
+                            <input class="form-control" type="text" v-model="item.name" />
+                            <label>Phone:</label>
+                            <input class="form-control" type="text" v-model="item.phone" />
+                        </div>
+                        <div class="col-12">
+                            <img class="img-responsive pull-right" style="width: 200px; margin-top: 30px"
+                                v-bind:src="item.pictureURL" />
+                        </div>
+                    </div>
+                    <label>Address:</label>
+                    <input class="form-control" type="text" v-model="item.address" />
+                    <label>Memo:</label>
+                    <textarea class="form-control" v-model="item.memo"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>
